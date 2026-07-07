@@ -5,8 +5,8 @@
 موارد زیر را پوشش می‌دهیم:
 
 - ایجاد API client
-- تولید TypeScript type و validation schema از مشخصات OpenAPI
-- راه‌اندازی React Query
+- تولید [TypeScript](https://www.typescriptlang.org/) type و validation schema از مشخصات [OpenAPI](https://www.openapis.org/)
+- راه‌اندازی [React Query](https://tanstack.com/query/latest)
 - ایجاد لایهٔ API برای اپلیکیشن
 - یکپارچه‌سازی با اپلیکیشن
 
@@ -16,8 +16,8 @@
 
 قبل از شروع، باید پروژه را راه‌اندازی کنیم. برای توسعهٔ پروژه به ابزارهای زیر روی کامپیوتر نیاز داریم:
 
-- Node.js نسخه ۲۴ یا بالاتر. نسخه ۱۱ npm همراه Node عرضه می‌شود. می‌توانیم با اجرای `node -v` و `npm -v` در ترمینال این را تأیید کنیم. راه‌های مختلفی برای نصب Node.js و npm وجود دارد. این مقالهٔ مفید جزئیات بیشتری ارائه می‌دهد: https://www.nodejsdesignpatterns.com/blog/5-ways-to-install-node-js .
-- VS Code (اختیاری)، یک ویرایشگر محبوب برای JavaScript و TypeScript. متن‌باز است، پشتیبانی TypeScript خوبی دارد و افزونه‌های زیادی ارائه می‌دهد. از https://code.visualstudio.com قابل دانلود است.
+- [Node.js](https://nodejs.org/) نسخه ۲۴ یا بالاتر. نسخه ۱۱ [npm](https://www.npmjs.com/) همراه Node عرضه می‌شود. می‌توانیم با اجرای `node -v` و `npm -v` در ترمینال این را تأیید کنیم. راه‌های مختلفی برای نصب Node.js و npm وجود دارد. این مقالهٔ مفید جزئیات بیشتری ارائه می‌دهد: https://www.nodejsdesignpatterns.com/blog/5-ways-to-install-node-js .
+- [VS Code](https://code.visualstudio.com/) (اختیاری)، یک ویرایشگر محبوب برای [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) و TypeScript. متن‌باز است، پشتیبانی TypeScript خوبی دارد و افزونه‌های زیادی ارائه می‌دهد. از https://code.visualstudio.com قابل دانلود است.
 
 کد این کتاب در مخزن کتاب موجود است. برای دسترسی به لینک مخزن، مراحل بخش «*دانلود فایل‌های کد نمونه*» در «*پیش‌گفتار*» را دنبال کنید. آن را کلون کنید و وارد ریشهٔ مخزن شوید:
 
@@ -338,7 +338,7 @@ export type Review = {
 
 این typeهای تولیدشده ساختار داده‌ای را که API ما برمی‌گرداند توصیف می‌کنند. تولیدکننده برای هر request body، پاسخ و مدل دادهٔ تعریف‌شده در مشخصات OpenAPI یک type ایجاد می‌کند.
 
-علاوه بر TypeScript type، می‌توانیم validation schema با Zod هم تولید کنیم که می‌تواند برای اعتبارسنجی داده در زمان اجرا استفاده شود.
+علاوه بر TypeScript type، می‌توانیم validation schema با [Zod](https://zod.dev/) هم تولید کنیم که می‌تواند برای اعتبارسنجی داده در زمان اجرا استفاده شود.
 
 schemaهای Zod تولیدشده را می‌توانیم در فایل `src/types/generated/zod.gen.ts` پیدا کنیم:
 
@@ -395,7 +395,7 @@ const idea = zIdea.parse(idea);
 
 ## راه‌اندازی React Query {#h1_173}
 
-هنگام انجام API call در اپلیکیشن‌های React، چیزهای زیادی برای handle کردن داریم مانند loading state، error handling، caching، request deduplication و بیشتر.
+هنگام انجام API call در اپلیکیشن‌های [React](https://react.dev/)، چیزهای زیادی برای handle کردن داریم مانند loading state، error handling، caching، request deduplication و بیشتر.
 
 React Query برای ساده‌سازی فرآیند مدیریت server state وارد می‌شود.
 

@@ -5,11 +5,11 @@ authentication و authorization سنگ بناهای اپلیکیشن‌های ا
 علاوه بر authentication و authorization، باید اپلیکیشن و کاربرانش را در برابر آسیب‌پذیری‌های امنیتی با جلوگیری از اجرای کد مخرب به‌جای کاربر محافظت کنیم. موضوعات زیر را پوشش می‌دهیم:
 
 - درک authentication و authorization
-- پیاده‌سازی authentication با httpOnly cookie
+- پیاده‌سازی authentication با [httpOnly cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies)
 - محافظت از بخش‌های اپلیکیشن با authorization policy
 - ساخت flowهای ثبت‌نام، ورود و خروج
 - محافظت از routeهای احراز هویت‌شده
-- جلوگیری از حملات XSS با sanitization محتوا
+- جلوگیری از حملات [XSS](https://owasp.org/www-community/attacks/xss/) با sanitization محتوا
 - امن‌سازی اپلیکیشن با security header
 
 در پایان این فصل، سیستم authentication امنی خواهیم داشت که اپلیکیشن را محافظت می‌کند و practiceهای امنیتی را پیاده‌سازی می‌کند تا اپلیکیشن و کاربرانمان ایمن باشند.
@@ -18,8 +18,8 @@ authentication و authorization سنگ بناهای اپلیکیشن‌های ا
 
 قبل از شروع، باید پروژه را راه‌اندازی کنیم. برای توسعهٔ پروژه، ابزارهای زیر باید روی کامپیوتر نصب باشند:
 
-- Node.js نسخه ۲۴ یا بالاتر. npm نسخه ۱۱ یا بالاتر همراه Node عرضه می‌شود. می‌توانیم با اجرای `node ‑v` و `npm ‑v` در ترمینال تأیید کنیم. روش‌های مختلفی برای نصب Node.js و npm وجود دارد. مقالهٔ مفیدی با جزئیات بیشتر اینجا هست: [https://www.nodejsdesignpatterns.com/blog/5-ways-to-install-node-js](https://www.nodejsdesignpatterns.com/blog/5-ways-to-install-node-js).
-- **VS Code** (اختیاری)، ویرایشگر محبوب برای JavaScript و TypeScript. متن‌باز است، پشتیبانی خوبی از TypeScript دارد و افزونه‌های زیادی ارائه می‌دهد. از [https://code.visualstudio.com](https://code.visualstudio.com) قابل دانلود است.
+- [Node.js](https://nodejs.org/) نسخه ۲۴ یا بالاتر. [npm](https://www.npmjs.com/) نسخه ۱۱ یا بالاتر همراه Node عرضه می‌شود. می‌توانیم با اجرای `node ‑v` و `npm ‑v` در ترمینال تأیید کنیم. روش‌های مختلفی برای نصب Node.js و npm وجود دارد. مقالهٔ مفیدی با جزئیات بیشتر اینجا هست: [https://www.nodejsdesignpatterns.com/blog/5-ways-to-install-node-js](https://www.nodejsdesignpatterns.com/blog/5-ways-to-install-node-js).
+- **[VS Code](https://code.visualstudio.com/)** (اختیاری)، ویرایشگر محبوب برای JavaScript و [TypeScript](https://www.typescriptlang.org/). متن‌باز است، پشتیبانی خوبی از TypeScript دارد و افزونه‌های زیادی ارائه می‌دهد. از [https://code.visualstudio.com](https://code.visualstudio.com) قابل دانلود است.
 
 کد این کتاب در [https://github.com/PacktPublishing/React-Application-Architecture-for-Production-Second-Edition](https://github.com/PacktPublishing/React-Application-Architecture-for-Production-Second-Edition) در GitHub موجود است. آن را clone کنید و به ریشهٔ مخزن وارد شوید:
 
@@ -79,7 +79,7 @@ npm run dev
 
 بدون authentication نمی‌توانیم بین کاربران مختلف تمایز قائل شویم یا دسترسی به امکانات خاصی را محدود کنیم. هر کاربر محتوای یکسانی می‌دید و هرکسی به هر داده‌ای دسترسی داشت. این برای وبسایت‌های عمومی کار می‌کند، اما بیشتر اپلیکیشن‌ها باید بدانند چه کسی از آن‌ها استفاده می‌کند.
 
-authentication را با رویکرد token-based پیاده‌سازی می‌کنیم. وقتی کاربران با اطلاعات ورودشان وارد می‌شوند، API ما آن‌ها را تأیید کرده و tokenهای authentication را برمی‌گرداند. این tokenها در httpOnly cookie ذخیره می‌شوند — cookieهایی که JavaScript نمی‌تواند به آن‌ها دسترسی داشته باشد. این مهم است چون از دزدیده شدن tokenها توسط scriptهای مخربی که ممکن است در صفحه‌مان اجرا شوند محافظت می‌کند، چون httpOnly cookie توسط JavaScript سمت client قابل دسترسی نیست. ارزش ذکر دارد که اگرچه httpOnly cookie خطر حملات XSS برای دزدیدن tokenها را کاهش می‌دهند، اما به‌تنهایی در برابر حملات CSRF محافظت نمی‌کنند. برای کمک به کاهش CSRF، ویژگی `SameSite` cookie به ما کمک می‌کند. با تنظیم `SameSite` روی `Strict` یا `Lax`، مرورگر cookie را فقط از همان سایت ارسال می‌کند و از ارسال آن با درخواست‌های cross-site جلوگیری می‌شود.
+authentication را با رویکرد [token-based](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) پیاده‌سازی می‌کنیم. وقتی کاربران با اطلاعات ورودشان وارد می‌شوند، API ما آن‌ها را تأیید کرده و tokenهای authentication را برمی‌گرداند. این tokenها در httpOnly cookie ذخیره می‌شوند — cookieهایی که JavaScript نمی‌تواند به آن‌ها دسترسی داشته باشد. این مهم است چون از دزدیده شدن tokenها توسط scriptهای مخربی که ممکن است در صفحه‌مان اجرا شوند محافظت می‌کند، چون httpOnly cookie توسط JavaScript سمت client قابل دسترسی نیست. ارزش ذکر دارد که اگرچه httpOnly cookie خطر حملات XSS برای دزدیدن tokenها را کاهش می‌دهند، اما به‌تنهایی در برابر حملات CSRF محافظت نمی‌کنند. برای کمک به کاهش [CSRF](https://owasp.org/www-community/attacks/csrf)، ویژگی [`SameSite`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite) cookie به ما کمک می‌کند. با تنظیم `SameSite` روی `Strict` یا `Lax`، مرورگر cookie را فقط از همان سایت ارسال می‌کند و از ارسال آن با درخواست‌های cross-site جلوگیری می‌شود.
 
 شکل زیر نشان می‌دهد flow authentication چگونه کار می‌کند:
 
@@ -525,7 +525,7 @@ export default {
 } satisfies Config;
 ```
 
-این توسط React Router لازم است چون یک feature جدید است که در نسخهٔ اصلی بعدی React Router به‌صورت پیش‌فرض موجود خواهد بود.
+این توسط [React Router](https://reactrouter.com/) لازم است چون یک feature جدید است که در نسخهٔ اصلی بعدی React Router به‌صورت پیش‌فرض موجود خواهد بود.
 
 حالا user middleware را بسازیم:
 
@@ -586,7 +586,7 @@ export const userMiddleware: MiddlewareFunction = async (
 - **دریافت و ذخیرهٔ کاربر**: اگر cookieها وجود داشته باشند، اطلاعات کاربر را دریافت کرده و در context ذخیره می‌کنیم.
 - **مدیریت خطای graceful**: اگر دریافت ناموفق باشد (token نامعتبر، خطای شبکه و...)، کاربر را به‌جای crash کردن اپلیکیشن، null قرار می‌دهیم.
 
-این middleware شیء کاربر یا null را در request context React Router (با Context API React اشتباه گرفته نشود) ذخیره می‌کند، پس کد downstream همیشه می‌داند کاربر احراز هویت شده یا نه.
+این middleware شیء کاربر یا null را در request context React Router (با Context API [React](https://react.dev/) اشتباه گرفته نشود) ذخیره می‌کند، پس کد downstream همیشه می‌داند کاربر احراز هویت شده یا نه.
 
 برای فعال کردن این middleware، باید آن را به آرایهٔ middleware در فایل root اضافه کنیم.
 
@@ -903,9 +903,9 @@ Authentication به ما می‌گوید کاربران کیستند، اما ا
 
 این به‌ویژه خطرناک است چون script مخرب با همان مجوزهای اپلیکیشن ما اجرا می‌شود. می‌تواند cookie بخواند، به local storage دسترسی پیدا کند، درخواست‌های API به‌جای کاربر ارسال کند یا کاربران را به سایت‌های مخرب هدایت کند. حتی با وجود اینکه از httpOnly cookie برای authentication استفاده می‌کنیم (که JavaScript نمی‌تواند بهشان دسترسی پیدا کند)، حملات XSS هنوز می‌توانند به‌عنوان کاربر واردشده عمل کنند.
 
-در اپلیکیشن ما، کاربران می‌توانند ایده‌هایی با توضیحات به فرمت markdown ایجاد کنند. Markdown به HTML تبدیل می‌شود برای نمایش، یعنی HTMLای را رندر می‌کنیم که از ورودی کاربر آمده است. اگر این HTML را sanitize نکنیم، کاربران می‌توانند scriptهای مخرب در محتوای markdown خود تزریق کنند.
+در اپلیکیشن ما، کاربران می‌توانند ایده‌هایی با توضیحات به فرمت [Markdown](https://www.markdownguide.org/) ایجاد کنند. Markdown به HTML تبدیل می‌شود برای نمایش، یعنی HTMLای را رندر می‌کنیم که از ورودی کاربر آمده است. اگر این HTML را sanitize نکنیم، کاربران می‌توانند scriptهای مخرب در محتوای markdown خود تزریق کنند.
 
-از DOMPurify برای sanitization HTML قبل از رندر استفاده می‌کنیم. DOMPurify هر محتوای بالقوه خطرناک مثل تگ‌های `<script>`، event handlerهای inline و attributeهای خطرناک را حذف می‌کند در حالی که elementهای امن HTML مثل heading، لیست و لینک را حفظ می‌کند.
+از [DOMPurify](https://github.com/cure53/DOMPurify) برای sanitization HTML قبل از رندر استفاده می‌کنیم. DOMPurify هر محتوای بالقوه خطرناک مثل تگ‌های `<script>`، event handlerهای inline و attributeهای خطرناک را حذف می‌کند در حالی که elementهای امن HTML مثل heading، لیست و لینک را حفظ می‌کند.
 
 ```tsx
 // src/components/markdown-renderer.tsx
@@ -986,7 +986,7 @@ export function MarkdownRenderer({
 
 بیایید نحوهٔ محافظت این کامپوننت در برابر XSS را بررسی کنیم:
 
-- **پردازش دو مرحله‌ای**: اول، markdown را با استفاده از remark به HTML تبدیل می‌کنیم. سپس، HTML را با `DOMPurify` sanitization می‌کنیم. sanitization داخلی remark را عمداً غیرفعال می‌کنیم چون `DOMPurify` بهتر عمل می‌کند.
+- **پردازش دو مرحله‌ای**: اول، markdown را با استفاده از [remark](https://github.com/remarkjs/remark) به HTML تبدیل می‌کنیم. سپس، HTML را با `DOMPurify` sanitization می‌کنیم. sanitization داخلی remark را عمداً غیرفعال می‌کنیم چون `DOMPurify` بهتر عمل می‌کند.
 - **لیست مجاز سخت‌گیرانه**: فقط تگ‌های HTML خاصی که برای متن امن و ضروری هستند مجازند. تگ‌هایی مثل `<script>`، `<iframe>` و `<object>` خودکار مسدود می‌شوند.
 - **attributeهای محدود**: فقط attributeهای امن مثل `href`، `title` و `class` مجازند. Event handlerهایی مثل `onclick` مسدود می‌شوند.
 - **پروتکل‌های امن**: برای لینکها، فقط پروتکل‌های `http:`، `https:` و `mailto:` مجازند. این از لینکهای `javascript:` که می‌توانند کد اجرا کنند جلوگیری می‌کند.
@@ -1048,10 +1048,10 @@ function getSecurityHeaders(
 در اینجا عملکرد هر security header را می‌بینیم:
 
 - `X‑Frame‑Options: DENY`: جلوی جاسازی سایت ما در iframe را می‌گیرد. این از حملات clickjacking جلوگیری می‌کند که در آن مهاجمان iframeهای نامرئی روی دکمه‌ها قرار می‌دهند تا کاربران را فریب دهند روی آن‌ها کلیک کنند.
-- `X‑Content‑Type‑Options: nosniff`: جلوی حدس زدن نوع محتوای فایل‌ها توسط مرورگر را می‌گیرد. بدون این، مرورگر ممکن است فایلی را به‌عنوان JavaScript اجرا کند حتی اگر گفته باشیم تصویر است، که می‌تواند به حملات XSS منجر شود.
+- `[X‑Content‑Type‑Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options): nosniff`: جلوی حدس زدن نوع محتوای فایل‌ها توسط مرورگر را می‌گیرد. بدون این، مرورگر ممکن است فایلی را به‌عنوان JavaScript اجرا کند حتی اگر گفته باشیم تصویر است، که می‌تواند به حملات XSS منجر شود.
 - `Referrer‑Policy: strict‑origin‑when‑cross‑origin`: کنترل می‌کند چه اطلاعاتی در header `Referer` ارسال شود. این تعادلی بین حریم خصوصی (نشت نکردن URL کامل به سایت‌های دیگر) و عملکرد (اجازهٔ analytics same-origin) برقرار می‌کند.
-- `Strict‑Transport‑Security`: مرورگرها را مجبور می‌کند فقط از اتصال HTTPS به سایت ما استفاده کنند. این از دزدیدن traffic توسط downgrade کردن کاربران به HTTP جلوگیری می‌کند. فقط در production فعال می‌کنیم چون در development از HTTP استفاده می‌کنیم.
-- `Content‑Security‑Policy`: این قدرتمندترین security header است. کنترل می‌کند مرورگر از کجا می‌تواند منابع را load کند که در ادامه با جزئیات توضیح می‌دهیم.
+- [`Strict‑Transport‑Security`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security): مرورگرها را مجبور می‌کند فقط از اتصال HTTPS به سایت ما استفاده کنند. این از دزدیدن traffic توسط downgrade کردن کاربران به HTTP جلوگیری می‌کند. فقط در production فعال می‌کنیم چون در development از HTTP استفاده می‌کنیم.
+- [`Content‑Security‑Policy`](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP): این قدرتمندترین security header است. کنترل می‌کند مرورگر از کجا می‌تواند منابع را load کند که در ادامه با جزئیات توضیح می‌دهیم.
 
 header **Content-Security-Policy** (یا **CSP**) به مرورگر می‌گوید کدام منابع برای load کردن منابع امن هستند. بدون CSP، مرورگر script، استایل، تصویر و سایر منابع را از هر جایی load می‌کند. CSP لیست مجازی از منابع معتبر ایجاد می‌کند.
 

@@ -1,8 +1,8 @@
 # فصل ۳: ساخت و مستندسازی کامپوننت‌ها
 
-در React، همه‌چیز یک **component** است. این paradigma به ما اجازه می‌دهد رابط کاربری را به بخش‌های کوچک‌تر تقسیم کنیم و توسعهٔ رابط کاربری و اپلیکیشن‌های بزرگ‌تر را ساده‌تر کنیم. همچنین با فعال کردن قابلیت استفادهٔ مجدد از componentها، از اصل DRY (خودتان را تکرار نکنید) پیروی می‌کند؛ چون می‌توانیم همان componentها را در چندین نقطه استفاده کنیم.
+در [React](https://react.dev/)، همه‌چیز یک **component** است. این paradigma به ما اجازه می‌دهد رابط کاربری را به بخش‌های کوچک‌تر تقسیم کنیم و توسعهٔ رابط کاربری و اپلیکیشن‌های بزرگ‌تر را ساده‌تر کنیم. همچنین با فعال کردن قابلیت استفادهٔ مجدد از componentها، از اصل DRY (خودتان را تکرار نکنید) پیروی می‌کند؛ چون می‌توانیم همان componentها را در چندین نقطه استفاده کنیم.
 
-در این فصل یاد می‌گیریم چگونه componentهای بنیادی برای design system اپلیکیشنمان بسازیم. این کار باعث می‌شود UI اپلیکیشن یکپارچه‌تر و درک و نگهداری آن آسان‌تر شود. همچنین یاد می‌گیریم چگونه این componentها را با **Storybook** مستند کنیم — ابزاری عالی که به‌عنوان کاتالوگی برای تمام elementهای UI قابل استفادهٔ مجدد ما عمل می‌کند.
+در این فصل یاد می‌گیریم چگونه componentهای بنیادی برای design system اپلیکیشنمان بسازیم. این کار باعث می‌شود UI اپلیکیشن یکپارچه‌تر و درک و نگهداری آن آسان‌تر شود. همچنین یاد می‌گیریم چگونه این componentها را با [**Storybook**](https://storybook.js.org/) مستند کنیم — ابزاری عالی که به‌عنوان کاتالوگی برای تمام elementهای UI قابل استفادهٔ مجدد ما عمل می‌کند.
 
 موارد زیر را پوشش خواهیم داد:
 
@@ -16,8 +16,8 @@
 
 پیش از شروع، باید پروژه را راه‌اندازی کنیم. برای توسعهٔ پروژه به ابزارهای زیر روی کامپیوتر خود نیاز دارید:
 
-- **Node.js** نسخهٔ ۲۴ یا بالاتر. نسخهٔ **npm** ۱۱ یا بالاتر همراه Node ارائه می‌شود. می‌توانید با اجرای `node -v` و `npm -v` در terminal این را تأیید کنید. راه‌های مختلفی برای نصب Node.js و npm وجود دارد. این مقالهٔ مفید را ببینید: [https://www.nodejsdesignpatterns.com/blog/5-ways-to-install-node-js](https://www.nodejsdesignpatterns.com/blog/5-ways-to-install-node-js).
-- **VS Code** (اختیاری)، یک ویرایشگر محبوب برای JavaScript و TypeScript. نرم‌افزاری open source با پشتیبانی قوی از TypeScript و انبوهی از extensionهاست. می‌توانید آن را از [https://code.visualstudio.com](https://code.visualstudio.com) دانلود کنید.
+- [**Node.js**](https://nodejs.org/) نسخهٔ ۲۴ یا بالاتر. نسخهٔ [**npm**](https://www.npmjs.com/) ۱۱ یا بالاتر همراه Node ارائه می‌شود. می‌توانید با اجرای `node -v` و `npm -v` در terminal این را تأیید کنید. راه‌های مختلفی برای نصب Node.js و npm وجود دارد. این مقالهٔ مفید را ببینید: [https://www.nodejsdesignpatterns.com/blog/5-ways-to-install-node-js](https://www.nodejsdesignpatterns.com/blog/5-ways-to-install-node-js).
+- [**VS Code**](https://code.visualstudio.com/) (اختیاری)، یک ویرایشگر محبوب برای [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) و [TypeScript](https://www.typescriptlang.org/). نرم‌افزاری open source با پشتیبانی قوی از TypeScript و انبوهی از extensionهاست. می‌توانید آن را از [https://code.visualstudio.com](https://code.visualstudio.com) دانلود کنید.
 
 کد این کتاب در مخزن (repository) کتاب موجود است. برای دسترسی به لینک مخزن، مراحل بخش «دانلود فایل‌های کد نمونه» در پیش‌گفتار را دنبال کنید. آن را clone کنید و وارد ریشهٔ مخزن شوید:
 
@@ -155,7 +155,7 @@ export default function HomePage() {
 
 - کتابخانهٔ component چیست و چرا به آن نیاز داریم؟
 - رویکردهای مختلف به کتابخانهٔ component
-- Shadcn UI چیست و چرا آن را انتخاب کردیم؟
+- [Shadcn UI](https://ui.shadcn.com/) چیست و چرا آن را انتخاب کردیم؟
 - نحوهٔ راه‌اندازی Shadcn UI
 
 بیایید با درک اینکه کتابخانهٔ component چیست و چرا به آن نیاز داریم شروع کنیم.
@@ -221,7 +221,7 @@ import Button from '@mui/material/Button';
 
 ### گزینه ۳: Shadcn UI (componentهای copy-paste) {#h3_121}
 
-Shadcn UI رویکرد متفاوتی دارد — این یک بستهٔ npm نیست. در عوض، مجموعه‌ای از componentهای accessible است که مستقیماً در پروژهٔ ما کپی می‌شوند. این componentها با Radix UI یا Base UI (کتابخانه‌های component headless برای accessibility و رفتار) ساخته شده و با Tailwind CSS استایل‌دهی می‌شوند. ما برای پروژهٔ خود از Base UI استفاده می‌کنیم، زیرا در زمان نگارش این کتاب نگهداری فعال‌تری دارد — موضوعی که همیشه باید هنگام انتخاب کتابخانهٔ component در نظر گرفته شود.
+Shadcn UI رویکرد متفاوتی دارد — این یک بستهٔ npm نیست. در عوض، مجموعه‌ای از componentهای accessible است که مستقیماً در پروژهٔ ما کپی می‌شوند. این componentها با [Radix UI](https://www.radix-ui.com/) یا [Base UI](https://mui.com/base-ui/) (کتابخانه‌های component headless برای accessibility و رفتار) ساخته شده و با [Tailwind CSS](https://tailwindcss.com/) استایل‌دهی می‌شوند. ما برای پروژهٔ خود از Base UI استفاده می‌کنیم، زیرا در زمان نگارش این کتاب نگهداری فعال‌تری دارد — موضوعی که همیشه باید هنگام انتخاب کتابخانهٔ component در نظر گرفته شود.
 
 #### مزایا: {#h4_122}
 
